@@ -9,7 +9,7 @@ public class Order {
     private String status;
     private List<OrderItem> orderItems;
 
-    public Order(int orderId, String orderDate, String status, List<OrderItem> orderItems) {
+    public Order(int orderId, String orderDate, String status) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.status = status;
