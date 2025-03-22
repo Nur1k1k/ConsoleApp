@@ -1,5 +1,4 @@
 public class OrderItem {
-
     private Product product;
     private int quantity;
 
@@ -16,7 +15,7 @@ public class OrderItem {
         return quantity;
     }
 
-    public double getTotelPrice() {
+    public double getTotalPrice() {
         return product.getPrice() * quantity;
     }
 }

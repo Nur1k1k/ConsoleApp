@@ -1,21 +1,18 @@
-import java.util.ArrayList;
-
 public class Product {
-
-    private int productId;
+    private int productID;
     private String name;
     private double price;
     private int stockQuantity;
 
-    public Product(int productId, String name, double price, int stockQuantity) {
-        this.productId = productId;
+    public Product(int productID, String name, double price, int stockQuantity) {
+        this.productID = productID;
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getProductID() {
+        return productID;
     }
 
     public String getName() {
@@ -30,7 +27,7 @@ public class Product {
         return stockQuantity;
     }
 
-    public void reduceStockQuantity(int quantity) {
-        this.stockQuantity-=quantity;
+    public void reduceStock(int quantity) {
+        this.stockQuantity -= quantity;
     }
 }

@@ -4,19 +4,21 @@ import java.util.Scanner;
 
 public class ShoppingApp {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
+        // Список клиентов, товаров и заказов
         List<Customer> customers = new ArrayList<>();
-        List<Order> orders = new ArrayList<>();
         List<Product> products = new ArrayList<>();
+        List<Order> orders = new ArrayList<>();
 
-        products.add(new Product(1, "Phone", 100000, 10));
-        products.add(new Product(2, "Laptop", 300000, 5));
-        products.add(new Product(3, "Headphone", 50000, 20));
+        // Добавляем тестовые товары
+        products.add(new Product(1, "Смартфон", 100000, 10));
+        products.add(new Product(2, "Ноутбук", 300000, 5));
+        products.add(new Product(3, "Наушники", 25000, 20));
 
         System.out.println("Добро пожаловать в интернет-магазин!");
 
-        while(true){
+        while (true) {
             System.out.println("\nВыберите действие:");
             System.out.println("1. Зарегистрировать клиента");
             System.out.println("2. Показать список товаров");
@@ -24,75 +26,117 @@ public class ShoppingApp {
             System.out.println("4. Просмотреть заказы клиента");
             System.out.println("5. Выход");
 
-            int choice = sc.nextInt();
-            sc.nextLine();
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Очистка буфера
 
-            switch(choice){
+            switch (choice) {
                 case 1:
                     System.out.print("Введите имя клиента: ");
-                    String name = sc.nextLine();
+                    String name = scanner.nextLine();
                     System.out.print("Введите email клиента: ");
-                    String email = sc.nextLine();
-                    int customerId = sc.nextInt();
-                    Customer newCustomer = new Customer(customerId, name, email);
+                    String email = scanner.nextLine();
+                    int customerID = customers.size() + 1;
+                    Customer newCustomer = new Customer(customerID, name, email);
                     customers.add(newCustomer);
-                    System.out.println("Клиент зарегистрирован с ID: " + customerId);
+                    System.out.println("Клиент зарегистрирован с ID: " + customerID);
                     break;
 
                 case 2:
                     System.out.println("Список доступных товаров:");
-                    for(Product product : products){
-                        System.out.println(product.getProductId() + ". " + product.getName() +
-                                    " - " + product.getPrice() + " KZT (На складе: " + product.getStockQuantity() + ")");
+                    for (Product product : products) {
+                        System.out.println(product.getProductID() + ". " + product.getName() +
+                                " - " + product.getPrice() + " KZT (На складе: " + product.getStockQuantity() + ")");
                     }
                     break;
 
                 case 3:
-                    if(customers.isEmpty()){
+                    if (customers.isEmpty()) {
                         System.out.println("Сначала зарегистрируйте клиента!");
                         break;
                     }
 
                     System.out.print("Введите ID клиента: ");
-                    int custId = sc.nextInt();
-                    sc.nextLine();
+                    int custID = scanner.nextInt();
+                    scanner.nextLine(); // Очистка буфера
 
                     Customer customer = null;
-                    for(Customer c : customers){
-                        if (c.getCustomerId() == custId){
+                    for (Customer c : customers) {
+                        if (c.getCustomerID() == custID) {
                             customer = c;
                             break;
                         }
                     }
 
-                    if(customer == null){
+                    if (customer == null) {
                         System.out.println("Клиент не найден!");
                         break;
                     }
 
-                    Order newOrder = new Order(orders.size() + 1,"2025-03-22", "Processing");
-                    while (true){
+                    Order newOrder = new Order(orders.size() + 1, "2025-03-22", "Processing");
+                    while (true) {
                         System.out.println("Выберите товар по ID (или 0 для завершения): ");
-                        int productID = sc.nextInt();
+                        int productID = scanner.nextInt();
 
                         if (productID == 0) break;
 
                         System.out.print("Введите количество: ");
-                        int quantity = sc.nextInt();
+                        int quantity = scanner.nextInt();
 
                         Product selectedProduct = null;
-                        for(Product p : products){
-                            if (p.getProductId() == productID){
+                        for (Product p : products) {
+                            if (p.getProductID() == productID) {
                                 selectedProduct = p;
                                 break;
                             }
                         }
+
+                        if (selectedProduct != null) {
+                            newOrder.addOrderItem(selectedProduct, quantity);
+                        } else {
+                            System.out.println("Товар не найден!");
+                        }
                     }
 
+                    customer.addOrder(newOrder);
+                    orders.add(newOrder);
+                    System.out.println("Заказ успешно оформлен! ID заказа: " + newOrder.getOrderID());
+                    break;
+
+                case 4:
+                    System.out.print("Введите ID клиента: ");
+                    int clientID = scanner.nextInt();
+                    scanner.nextLine();
+
+                    Customer foundCustomer = null;
+                    for (Customer c : customers) {
+                        if (c.getCustomerID() == clientID) {
+                            foundCustomer = c;
+                            break;
+                        }
+                    }
+
+                    if (foundCustomer == null) {
+                        System.out.println("Клиент не найден!");
+                        break;
+                    }
+
+                    System.out.println("Заказы клиента " + foundCustomer.getName() + ":");
+                    for (Order order : foundCustomer.getOrders()) {
+                        System.out.println("Заказ ID: " + order.getOrderID() + ", Статус: " + order.getStatus());
+                        for (OrderItem item : order.getOrderItems()) {
+                            System.out.println("- " + item.getProduct().getName() + " x " + item.getQuantity());
+                        }
+                        System.out.println("Итоговая сумма: " + order.getTotalAmount() + " KZT");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Выход из программы...");
+                    return;
+
+                default:
+                    System.out.println("Неверный ввод! Попробуйте снова.");
             }
         }
-
-
-
     }
 }

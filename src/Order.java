@@ -1,23 +1,21 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Order {
-
-    private int orderId;
+    private int orderID;
     private String orderDate;
     private String status;
     private List<OrderItem> orderItems;
 
-    public Order(int orderId, String orderDate, String status) {
-        this.orderId = orderId;
+    public Order(int orderID, String orderDate, String status) {
+        this.orderID = orderID;
         this.orderDate = orderDate;
         this.status = status;
-        this.orderItems = orderItems;
+        this.orderItems = new ArrayList<>();
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getOrderID() {
+        return orderID;
     }
 
     public String getOrderDate() {
@@ -33,9 +31,9 @@ public class Order {
     }
 
     public void addOrderItem(Product product, int quantity) {
-        if(product.getStockQuantity() >= quantity) {
+        if (product.getStockQuantity() >= quantity) {
             orderItems.add(new OrderItem(product, quantity));
-            product.reduceStockQuantity(quantity);
+            product.reduceStock(quantity);
         } else {
             System.out.println("Ошибка: недостаточно товара на складе!");
         }
@@ -44,11 +42,8 @@ public class Order {
     public double getTotalAmount() {
         double total = 0;
         for (OrderItem item : orderItems) {
-            total += item.getTotelPrice();
+            total += item.getTotalPrice();
         }
         return total;
     }
-
-
-
 }

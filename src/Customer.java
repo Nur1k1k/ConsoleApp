@@ -1,21 +1,21 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Customer {
-
-    private int customerId;
+    private int customerID;
     private String name;
     private String email;
-    private ArrayList<Order> orders;
+    private List<Order> orders;
 
-    public Customer(int customerId, String name, String email) {
-        this.customerId = customerId;
+    public Customer(int customerID, String name, String email) {
+        this.customerID = customerID;
         this.name = name;
         this.email = email;
-        this.orders = orders;
+        this.orders = new ArrayList<>();
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getCustomerID() {
+        return customerID;
     }
 
     public String getName() {
@@ -26,7 +26,7 @@ public class Customer {
         return email;
     }
 
-    public ArrayList<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
